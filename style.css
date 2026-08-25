@@ -1,0 +1,266 @@
+/* ===== 基础 ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0d0d0d;
+  --bg-soft: #1a1212;
+  --text: #f5e8d0;
+  --text-soft: #a89888;
+  --accent: #ff4757;
+  --accent-2: #ffa502;
+  --accent-3: #ff6b6b;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  line-height: 1.7;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ===== 飘动 emoji ===== */
+.floaters {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.floaters span {
+  position: absolute;
+  top: -50px;
+  left: var(--x);
+  font-size: 32px;
+  opacity: 0.25;
+  animation: fall 9s linear infinite;
+  animation-delay: var(--d);
+}
+
+@keyframes fall {
+  0% { transform: translateY(-50px) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.25; }
+  90% { opacity: 0.25; }
+  100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+/* ===== 大字宣言区 ===== */
+.hero {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(255,71,87,0.18), transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgba(255,165,2,0.15), transparent 50%),
+    var(--bg);
+}
+
+.kicker {
+  font-size: clamp(11px, 2.4vw, 15px);
+  color: var(--accent-2);
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+/* ===== 大字艺术字 ===== */
+.declaration {
+  display: flex;
+  gap: clamp(4px, 1.5vw, 18px);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.declaration .char {
+  font-size: clamp(64px, 18vw, 200px);
+  font-weight: 900;
+  line-height: 1;
+  font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+  /* 火焰渐变填充 */
+  background: linear-gradient(180deg, #ffeaa7 0%, #ffa502 35%, #ff4757 70%, #c0392b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* 描边 */
+  -webkit-text-stroke: 2px rgba(0,0,0,0.4);
+  /* 立体阴影 */
+  filter: drop-shadow(0 0 20px rgba(255,71,87,0.6)) drop-shadow(0 6px 0 rgba(0,0,0,0.5));
+  animation: bounce-in 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) backwards,
+             wobble 3s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.12s), calc(var(--i) * 0.3s);
+  display: inline-block;
+}
+
+@keyframes bounce-in {
+  0% { opacity: 0; transform: translateY(-60px) scale(0.3) rotate(-20deg); }
+  100% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+}
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  25% { transform: rotate(-3deg) translateY(-6px); }
+  75% { transform: rotate(3deg) translateY(-3px); }
+}
+
+.stamp {
+  margin-top: 36px;
+  font-size: clamp(13px, 2.6vw, 18px);
+  color: var(--text-soft);
+  letter-spacing: 2px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  padding: 8px 20px;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 30px;
+  font-size: 14px;
+  color: var(--accent-2);
+  animation: bob 1.8s ease-in-out infinite;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50% { transform: translateY(8px); opacity: 1; }
+}
+
+/* ===== 图片展示区 ===== */
+.photo-section {
+  position: relative;
+  z-index: 2;
+  padding: 80px 20px;
+  text-align: center;
+  background: var(--bg-soft);
+  border-top: 1px solid rgba(255,71,87,0.2);
+  border-bottom: 1px solid rgba(255,71,87,0.2);
+}
+
+.sec-title {
+  font-size: clamp(22px, 4.5vw, 34px);
+  margin-bottom: 36px;
+  color: var(--accent-2);
+}
+
+.photo-frame {
+  display: inline-block;
+  max-width: 90vw;
+  padding: 14px;
+  background: linear-gradient(135deg, #2a1f1f, #1a1212);
+  border: 3px dashed var(--accent);
+  border-radius: 16px;
+  box-shadow: 0 0 40px rgba(255,71,87,0.25);
+  transition: transform 0.3s;
+}
+
+.photo-frame:hover { transform: scale(1.02) rotate(-0.5deg); }
+
+.photo-frame img {
+  display: block;
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.photo-frame figcaption {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--text-soft);
+}
+
+/* ===== 点评跳转板块 ===== */
+.cta-section {
+  position: relative;
+  z-index: 2;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.cta-card {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #2a1818, #1a1212);
+  border: 2px solid var(--accent);
+  border-radius: 20px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.25s, box-shadow 0.25s;
+  box-shadow: 0 0 30px rgba(255,71,87,0.2);
+  text-align: left;
+  cursor: pointer;
+}
+
+.cta-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 12px 40px rgba(255,71,87,0.45);
+  border-color: var(--accent-2);
+}
+
+.cta-emoji {
+  font-size: 56px;
+  flex-shrink: 0;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+.cta-body h3 {
+  font-size: 22px;
+  color: var(--accent-2);
+  margin-bottom: 6px;
+}
+
+.cta-body p {
+  font-size: 14px;
+  color: var(--text-soft);
+  margin-bottom: 10px;
+}
+
+.cta-go {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.cta-card:hover .cta-go { color: var(--accent-2); }
+
+/* ===== 页脚 ===== */
+.footer {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 40px 20px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  background: var(--bg-soft);
+  color: var(--text-soft);
+}
+
+.footer p { font-size: 14px; margin-bottom: 6px; }
+.footer .small { font-size: 12px; opacity: 0.65; }
+.footer code { color: var(--accent); background: var(--bg); padding: 2px 6px; border-radius: 4px; }
+
+/* ===== 响应式 ===== */
+@media (max-width: 600px) {
+  .cta-card { flex-direction: column; text-align: center; gap: 12px; }
+  .cta-body { text-align: center; }
+  .declaration { gap: 6px; }
+}
