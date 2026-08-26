@@ -1,4 +1,4 @@
-// 许健恶搞游乐场 游戏逻辑引擎
+// 许健恶搞游乐场 游戏逻辑引擎 (高级程序媛升级版)
 document.addEventListener('DOMContentLoaded', () => {
 
   // ===== Web Audio 简单合成音效（无需外部音频文件） =====
@@ -45,24 +45,24 @@ document.addEventListener('DOMContentLoaded', () => {
   let autoWhackInterval = null;
 
   const hitWords = [
-    "💥 借200块充话费！",
-    "📱 安卓手机壳送苹果！",
-    "🎮 刚在开团收不住！",
-    "💸 AA制我最近手头紧！",
-    "💔 我配不上你（隔天官宣）！",
-    "🥩 红烧肉盗图英雄所见！",
-    "🔗 拼多多帮我砍一刀！",
-    "🤡 朋友圈高效广撒网！",
-    "😤 暴击！混蛋值 +999！",
-    "🙄 怎么没化妆啊！"
+    "💥 借500充话费说是天使轮投资！",
+    "📱 敏捷极简交付送苹果安卓壳！",
+    "🎮 跑单元测试实则0-12峡谷带妹！",
+    "💸 前端状态解耦咖啡AA侠！",
+    "💔 模板复用挽回信忘记替换女方名字！",
+    "🥩 红烧肉带美团外卖条形码！",
+    "🔗 拼多多砍一刀强行插入需求！",
+    "🤡 8线程同时聊天叫分布式高并发！",
+    "🛡️ CVE-99999 致命高危渣男漏洞！",
+    "🚫 git reset --hard 永久拒合PR！"
   ];
 
   const titles = [
-    { threshold: 0, title: "路过的吃瓜群众" },
-    { threshold: 10, title: "初级反诈受害者" },
-    { threshold: 30, title: "反借钱先锋斗士" },
-    { threshold: 60, title: "鉴海王十级学者" },
-    { threshold: 100, title: "暴打许健全国总冠军 👑" }
+    { threshold: 0, title: "初级受害者 (吃瓜)" },
+    { threshold: 10, title: "反借钱先锋程序媛" },
+    { threshold: 30, title: "鉴高并发海王架构师" },
+    { threshold: 60, title: "零信任反诈高级总监" },
+    { threshold: 100, title: "暴打许健·金牌主审官 👑" }
   ];
 
   const hitCountEl = document.getElementById('hit-count');
@@ -93,8 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const el = document.createElement('div');
     el.className = 'flying-word';
     el.textContent = text;
-    el.style.left = (x || (40 + Math.random() * 20)) + '%';
-    el.style.top = (y || (40 + Math.random() * 20)) + '%';
+    el.style.left = (x || (30 + Math.random() * 40)) + '%';
+    el.style.top = (y || (30 + Math.random() * 40)) + '%';
     flyingContainer.appendChild(el);
     setTimeout(() => el.remove(), 1200);
   }
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     targetCard.classList.add('hit');
 
     // 吐槽语
-    targetStatus.textContent = comboCount > 20 ? "“别打了别打了，我把200还你！”" : "“嗷！你还真打啊？！”";
+    targetStatus.textContent = comboCount > 20 ? "“别打了别打了，我把500块话费退你！”" : "“嗷！你还真打啊？！架构师的事能叫渣吗？！”";
 
     // 飘字
     spawnFlyingText();
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
       comboCount = 0;
       comboCountEl.textContent = '0';
       rageFill.style.width = '0%';
-      targetStatus.textContent = "“呼……终于停手了。”";
+      targetStatus.textContent = "“呼……终于停手了，赶紧去开把排位。”";
       targetEmoji.textContent = '🤡';
     }, 1800);
   }
@@ -188,14 +188,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultComment = document.getElementById('result-comment');
 
   const excuses = [
-    { text: "“借200充话费，朋友之间这点忙都不帮？”", comment: "鉴定结论：建议立刻拉黑，并回敬一句‘那你去借呗’！" },
-    { text: "“刚才排位开团收不住手，才迟到了一个半小时。”", comment: "鉴定结论：他的真爱是水晶枢纽，你只是背景板。" },
-    { text: "“虽然你用苹果，但我送你安卓手机壳留着以后换手机用。”", comment: "鉴定结论：拼多多九块九的顶级礼物刺客。" },
-    { text: "“朋友圈同时发三条文案配三个人，叫高效广撒网匹配。”", comment: "鉴定结论：海王自白书，建议全网通报。" },
-    { text: "“红烧肉盗图水印没擦？这是英雄所见略同。”", comment: "鉴定结论：死鸭子嘴硬天花板，厚脸皮宗师。" },
-    { text: "“来帮我砍一刀浇水助力领现金吧宝贝！”", comment: "鉴定结论：不是来谈恋爱的，是来做社群裂变运营的。" },
-    { text: "“你今天怎么没化妆啊？这家餐厅咱 AA 吧。”", comment: "鉴定结论：直男癌晚期 + AA侠合体形态。" },
-    { text: "“是我配不上你（隔天换情头官宣新欢）。”", comment: "鉴定结论：批量生产借口，无缝衔接冲恋爱 KPI。" }
+    { text: "“借500充话费，这是算你给本架构师的天使轮入股！”", comment: "Code Review 评审意见：垃圾不良资产，非法集资，建议直接报网安！" },
+    { text: "“刚才在跑本地单元测试，其实在峡谷五排带妹0-12。”", comment: "Code Review 评审意见：测试覆盖率为0，重大线上故障直接通报批评！" },
+    { text: "“送你苹果手机壳给安卓用，叫敏捷MVP极简交付。”", comment: "Code Review 评审意见：需求严重偏离，直接打回重做！" },
+    { text: "“同时跟8个妹子聊，叫分布式多线程高并发负载均衡。”", comment: "Code Review 评审意见：严重内存泄漏与线程死锁，建议直接 kill -9！" },
+    { text: "“红烧肉盗图水印没擦干净，是英雄所见略同。”", comment: "Code Review 评审意见：第三方侵权依赖，死鸭子嘴硬天花板。" },
+    { text: "“发2000字深情挽回长文，第二段把名字打成了婷婷。”", comment: "Code Review 评审意见：变量名未重命名严重事故，未经灰度直接热修复翻车！" },
+    { text: "“喝杯25块咖啡，跟我讲前端状态解耦必须各自AA。”", comment: "Code Review 评审意见：直男癌晚期 + 铁公鸡微服务架构。" },
+    { text: "“发朋友圈把我 display:none 抹黑，说为了保护我隐私。”", comment: "Code Review 评审意见：CSS 样式坍塌，海王惯犯，建议永久拉黑！" }
   ];
 
   let currentRotation = 0;
@@ -213,7 +213,6 @@ document.addEventListener('DOMContentLoaded', () => {
       // 每个扇区 45 度，转动多圈 (5~8圈) + 偏移
       const sliceDeg = 45;
       const extraRounds = 360 * (5 + Math.floor(Math.random() * 3));
-      // 指针在顶部 (0度)，由于顺时针旋转，第 targetIndex 个扇区停在顶部所需的最终角度
       const targetAngle = 360 - (targetIndex * sliceDeg + sliceDeg / 2);
       
       currentRotation += extraRounds + (targetAngle - (currentRotation % 360));
@@ -262,23 +261,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const player = {
     x: 260,
     y: 340,
-    width: 80,
+    width: 86,
     height: 30,
-    speed: 7,
+    speed: 7.5,
     moveLeft: false,
     moveRight: false
   };
 
   // 掉落物品类型
   const itemTypes = [
-    { text: "🧾 借200", type: "bad", score: -10, color: "#ff4757" },
-    { text: "📱 安卓壳", type: "bad", score: -10, color: "#ff4757" },
-    { text: "🔗 砍一刀", type: "bad", score: -10, color: "#ff4757" },
-    { text: "🥩 盗图肉", type: "bad", score: -10, color: "#ff4757" },
-    { text: "💔 KPI无缝", type: "bad", score: -15, color: "#ff4757" },
-    { text: "🚫 一键拉黑", type: "good", score: 20, color: "#2ed573" },
-    { text: "🛡️ 避雷成功", type: "good", score: 15, color: "#2ed573" },
-    { text: "💵 拒绝AA", type: "good", score: 15, color: "#2ed573" }
+    { text: "🧾 借钱天使轮", type: "bad", score: -10, color: "#ff4757" },
+    { text: "📱 安卓壳送苹果", type: "bad", score: -10, color: "#ff4757" },
+    { text: "🔗 拼夕夕砍一刀", type: "bad", score: -10, color: "#ff4757" },
+    { text: "🥩 外卖条形码肉", type: "bad", score: -10, color: "#ff4757" },
+    { text: "💔 忘记改变量名", type: "bad", score: -15, color: "#ff4757" },
+    { text: "🤡 8线程多开海王", type: "bad", score: -15, color: "#ff4757" },
+    { text: "🚫 git拒合并", type: "good", score: 20, color: "#2ed573" },
+    { text: "🛡️ 架构师避雷", type: "good", score: 15, color: "#2ed573" },
+    { text: "🔒 触发零信任", type: "good", score: 20, color: "#2ed573" }
   ];
 
   let fallingItems = [];
@@ -296,11 +296,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!isDodgeRunning) return;
     const item = itemTypes[Math.floor(Math.random() * itemTypes.length)];
     fallingItems.push({
-      x: 30 + Math.random() * (canvas.width - 90),
+      x: 20 + Math.random() * (canvas.width - 110),
       y: -20,
-      width: 60,
+      width: 90,
       height: 24,
-      speed: 2 + Math.random() * 2.5,
+      speed: 2.2 + Math.random() * 2.6,
       ...item
     });
   }
@@ -320,13 +320,13 @@ document.addEventListener('DOMContentLoaded', () => {
     ctx.beginPath();
     ctx.roundRect(player.x, player.y, player.width, player.height, 8);
     ctx.fill();
-    ctx.fillStyle = "#1a0f0f";
-    ctx.font = "bold 13px sans-serif";
+    ctx.fillStyle = "#140d0d";
+    ctx.font = "bold 12.5px sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText("🛡️ 避雷盾", player.x + player.width / 2, player.y + 20);
+    ctx.fillText("🛡️ 架构师避雷盾", player.x + player.width / 2, player.y + 20);
 
     // 掉落物品逻辑
-    if (Math.random() < 0.04) spawnDodgeItem();
+    if (Math.random() < 0.045) spawnDodgeItem();
 
     for (let i = fallingItems.length - 1; i >= 0; i--) {
       const it = fallingItems[i];
@@ -392,17 +392,17 @@ document.addEventListener('DOMContentLoaded', () => {
       highscoreEl.textContent = dodgeHighScore;
     }
 
-    let evaluation = "鉴定结果：被许健借光了钱包，急需充值智商！💸";
-    if (dodgeScore >= 100) evaluation = "鉴定结果：避雷界顶级宗师！许健见你绕道走！🏆";
-    else if (dodgeScore >= 50) evaluation = "鉴定结果：鉴渣大师，成功保住 200 块话费！🛡️";
-    else if (dodgeScore > 0) evaluation = "鉴定结果：险象环生，建议少看朋友圈！👀";
+    let evaluation = "Code Review 结论：被许健的多线程海王炸毁了服务器，急需重构！💸";
+    if (dodgeScore >= 120) evaluation = "Code Review 结论：金牌首席安全架构师！许健的渣男代码连编译都过不去！🏆";
+    else if (dodgeScore >= 60) evaluation = "Code Review 结论：资深鉴渣专家，成功拦截 8 线程高并发并发漏洞！🛡️";
+    else if (dodgeScore > 0) evaluation = "Code Review 结论：险象环生，建议立刻关闭对外端口，开启零信任防御！🔒";
 
     const title = document.getElementById('overlay-title');
     const desc = document.getElementById('overlay-desc');
-    title.textContent = `🎮 挑战结束！最终得分：${dodgeScore}`;
-    desc.innerHTML = `${evaluation}<br><br>点击下方按钮可再次挑战！`;
+    title.textContent = `🚨 审核结束！最终得分：${dodgeScore}`;
+    desc.innerHTML = `${evaluation}<br><br>点击下方按钮再次开启 Review！`;
     overlay.classList.remove('hidden');
-    btnStartDodge.textContent = '🔄 再次挑战';
+    btnStartDodge.textContent = '🔄 再次 Review 避雷';
   }
 
   if (btnStartDodge) btnStartDodge.addEventListener('click', startDodgeGame);
@@ -432,5 +432,5 @@ document.addEventListener('DOMContentLoaded', () => {
     btnRight.addEventListener('mouseup', () => player.moveRight = false);
   }
 
-  console.log('%c🎮 许健恶搞游乐场已加载完毕！', 'color:#ffa502;font-size:16px;font-weight:bold;');
+  console.log('%c🚨 许健恶搞游乐场 (程序媛高工版) 已就绪！', 'color:#ffa502;font-size:16px;font-weight:bold;');
 });
