@@ -1,19 +1,31 @@
-// 许健恶搞游乐场 游戏逻辑引擎 (高级程序媛升级版)
+// 许健恶搞游乐场 游戏逻辑引擎 (全功能修复与优化版)
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ===== Web Audio 简单合成音效（无需外部音频文件） =====
-  const audioCtx = (window.AudioContext || window.webkitAudioContext) ? new (window.AudioContext || window.webkitAudioContext)() : null;
-  
+  // ===== 1. Web Audio 简单合成音效（自适应激活） =====
+  let audioCtx = null;
+
+  function initAudio() {
+    if (!audioCtx) {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (AudioContextClass) {
+        audioCtx = new AudioContextClass();
+      }
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+  }
+
   function playBeep(freq = 440, type = 'sine', duration = 0.1) {
-    if (!audioCtx) return;
     try {
-      if (audioCtx.state === 'suspended') audioCtx.resume();
+      initAudio();
+      if (!audioCtx) return;
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.type = type;
       osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
       gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
       osc.start();
@@ -21,23 +33,34 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch(e) {}
   }
 
-  // ===== 1. 选项卡切换 =====
+  // 页面首次任意交互时激活音频
+  window.addEventListener('click', initAudio, { once: true });
+  window.addEventListener('touchstart', initAudio, { once: true });
+
+  // ==========================================
+  // ===== 2. 选项卡切换系统 =====
+  // ==========================================
   const tabBtns = document.querySelectorAll('.tab-btn');
   const gamePanels = document.querySelectorAll('.game-panel');
 
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
+      initAudio();
       tabBtns.forEach(b => b.classList.remove('active'));
       gamePanels.forEach(p => p.classList.remove('active'));
+      
       btn.classList.add('active');
-      const target = document.getElementById(btn.dataset.target);
-      if (target) target.classList.add('active');
+      const targetId = btn.dataset.target;
+      const targetPanel = document.getElementById(targetId);
+      if (targetPanel) {
+        targetPanel.classList.add('active');
+      }
       playBeep(520, 'triangle', 0.08);
     });
   });
 
   // ==========================================
-  // ===== 2. 游戏一：暴打许健 / 戳戳乐 =====
+  // ===== 3. 游戏一：暴打许健 / 戳戳乐 =====
   // ==========================================
   let hitCount = 0;
   let comboCount = 0;
@@ -91,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
       achievementUnlocked = true;
       // 1. 舞台背景动态切换为 NAI5 暴打漫画
       if (whackStage) {
-        whackStage.id = 'whack-stage';
         whackStage.classList.add('has-achievement-bg');
       }
       // 2. 弹出成就弹窗
@@ -99,21 +121,24 @@ document.addEventListener('DOMContentLoaded', () => {
         achievementModal.style.display = 'flex';
       }
       // 3. 胜利音效
-      playBeep(523.25, 'sine', 0.15);
-      setTimeout(() => playBeep(659.25, 'sine', 0.15), 150);
-      setTimeout(() => playBeep(783.99, 'sine', 0.25), 300);
-      setTimeout(() => playBeep(1046.50, 'triangle', 0.4), 450);
+      playBeep(523.25, 'sine', 0.12);
+      setTimeout(() => playBeep(659.25, 'sine', 0.12), 120);
+      setTimeout(() => playBeep(783.99, 'sine', 0.2), 240);
+      setTimeout(() => playBeep(1046.50, 'triangle', 0.35), 360);
     }
   }
 
-  // 关闭弹窗事件
+  // 关闭弹窗
   function closeModal() {
-    if (achievementModal) achievementModal.style.display = 'none';
+    if (achievementModal) {
+      achievementModal.style.display = 'none';
+    }
   }
   if (btnCloseModal) btnCloseModal.addEventListener('click', closeModal);
   if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
 
   function updateWhackTitle() {
+    if (!titleEl) return;
     for (let i = titles.length - 1; i >= 0; i--) {
       if (hitCount >= titles[i].threshold) {
         titleEl.textContent = titles[i].title;
@@ -123,6 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function spawnFlyingText(x, y) {
+    if (!flyingContainer) return;
     const text = hitWords[Math.floor(Math.random() * hitWords.length)];
     const el = document.createElement('div');
     el.className = 'flying-word';
@@ -136,26 +162,34 @@ document.addEventListener('DOMContentLoaded', () => {
   function doHit() {
     hitCount++;
     comboCount++;
-    hitCountEl.textContent = hitCount;
-    comboCountEl.textContent = comboCount;
+    if (hitCountEl) hitCountEl.textContent = hitCount;
+    if (comboCountEl) comboCountEl.textContent = comboCount;
 
     // 检查 5 次暴打成就
     checkAchievement();
 
     // 充能条
-    const ragePercent = (comboCount * 5) % 100;
-    rageFill.style.width = ragePercent + '%';
+    if (rageFill) {
+      const ragePercent = (comboCount * 5) % 100;
+      rageFill.style.width = ragePercent + '%';
+    }
 
     // 随机更换受击表情
-    targetEmoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    if (targetEmoji) {
+      targetEmoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    }
 
     // 动画类
-    targetCard.classList.remove('hit');
-    void targetCard.offsetWidth; // 触发重绘
-    targetCard.classList.add('hit');
+    if (targetCard) {
+      targetCard.classList.remove('hit');
+      void targetCard.offsetWidth; // 触发重绘
+      targetCard.classList.add('hit');
+    }
 
     // 吐槽语
-    targetStatus.textContent = comboCount > 20 ? "“别打了别打了，我把500块话费退你！”" : "“嗷！你还真打啊？！架构师的事能叫渣吗？！”";
+    if (targetStatus) {
+      targetStatus.textContent = comboCount > 20 ? "“别打了别打了，我把500块话费退你！”" : "“嗷！你还真打啊？！架构师的事能叫渣吗？！”";
+    }
 
     // 飘字
     spawnFlyingText();
@@ -170,12 +204,10 @@ document.addEventListener('DOMContentLoaded', () => {
     clearTimeout(comboTimer);
     comboTimer = setTimeout(() => {
       comboCount = 0;
-      comboCountEl.textContent = '0';
-      rageFill.style.width = '0%';
-      targetStatus.textContent = "“呼……终于停手了，赶紧去开把排位。”";
-      targetEmoji.textContent = '🤡';
-    }, 1800);
-  }
+      if (comboCountEl) comboCountEl.textContent = '0';
+      if (rageFill) rageFill.style.width = '0%';
+      if (targetStatus) targetStatus.textContent = "“呼……终于停手了，赶紧去开把排位。”";
+      if (targetEmoji) targetEmoji.textContent = '🤡';
     }, 1800);
   }
 
@@ -198,27 +230,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 重置
+  // 重置计数
   if (btnResetWhack) {
     btnResetWhack.addEventListener('click', () => {
       if (autoWhackInterval) {
         clearInterval(autoWhackInterval);
         autoWhackInterval = null;
         btnAutoWhack.textContent = '⚡ 开启自动连点器';
+        btnAutoWhack.classList.remove('active');
       }
       hitCount = 0;
       comboCount = 0;
-      hitCountEl.textContent = '0';
-      comboCountEl.textContent = '0';
-      rageFill.style.width = '0%';
-      titleEl.textContent = titles[0].title;
-      targetStatus.textContent = "“哎呀，你点我干嘛？”";
-      targetEmoji.textContent = '🤡';
+      if (hitCountEl) hitCountEl.textContent = '0';
+      if (comboCountEl) comboCountEl.textContent = '0';
+      if (rageFill) rageFill.style.width = '0%';
+      if (titleEl) titleEl.textContent = titles[0].title;
+      if (targetStatus) targetStatus.textContent = "“哎呀，你点我干嘛？”";
+      if (targetEmoji) targetEmoji.textContent = '🤡';
     });
   }
 
   // ==========================================
-  // ===== 3. 游戏二：离谱借口大转盘 =====
+  // ===== 4. 游戏二：离谱借口大转盘 =====
   // ==========================================
   const wheel = document.getElementById('wheel-disc');
   const btnSpin = document.getElementById('btn-spin');
@@ -245,11 +278,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isSpinning) return;
       isSpinning = true;
       btnSpin.disabled = true;
-      excuseResult.style.display = 'none';
+      if (excuseResult) excuseResult.style.display = 'none';
 
       // 随机选一个索引 (0 ~ 7)
       const targetIndex = Math.floor(Math.random() * excuses.length);
-      // 每个扇区 45 度，转动多圈 (5~8圈) + 偏移
       const sliceDeg = 45;
       const extraRounds = 360 * (5 + Math.floor(Math.random() * 3));
       const targetAngle = 360 - (targetIndex * sliceDeg + sliceDeg / 2);
@@ -268,16 +300,16 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         isSpinning = false;
         btnSpin.disabled = false;
-        resultText.textContent = excuses[targetIndex].text;
-        resultComment.textContent = excuses[targetIndex].comment;
-        excuseResult.style.display = 'block';
+        if (resultText) resultText.textContent = excuses[targetIndex].text;
+        if (resultComment) resultComment.textContent = excuses[targetIndex].comment;
+        if (excuseResult) excuseResult.style.display = 'block';
         playBeep(660, 'square', 0.3);
       }, 3600);
     });
   }
 
   // ==========================================
-  // ===== 4. 游戏三：避雷接物大作战 =====
+  // ===== 5. 游戏三：避雷接物大作战 =====
   // ==========================================
   const canvas = document.getElementById('dodge-canvas');
   const ctx = canvas ? canvas.getContext('2d') : null;
@@ -325,14 +357,16 @@ document.addEventListener('DOMContentLoaded', () => {
   function resetDodgeGame() {
     dodgeScore = 0;
     dodgeTimeLeft = 30;
-    scoreEl.textContent = '0';
-    timerEl.textContent = '30s';
+    if (scoreEl) scoreEl.textContent = '0';
+    if (timerEl) timerEl.textContent = '30s';
     fallingItems = [];
-    player.x = (canvas.width - player.width) / 2;
+    if (canvas) {
+      player.x = (canvas.width - player.width) / 2;
+    }
   }
 
   function spawnDodgeItem() {
-    if (!isDodgeRunning) return;
+    if (!isDodgeRunning || !canvas) return;
     const item = itemTypes[Math.floor(Math.random() * itemTypes.length)];
     fallingItems.push({
       x: 20 + Math.random() * (canvas.width - 110),
@@ -345,7 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateDodgeGame() {
-    if (!isDodgeRunning || !ctx) return;
+    if (!isDodgeRunning || !ctx || !canvas) return;
 
     // 清屏
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -390,7 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
         it.y + it.height > player.y
       ) {
         dodgeScore += it.score;
-        scoreEl.textContent = dodgeScore;
+        if (scoreEl) scoreEl.textContent = dodgeScore;
         playBeep(it.type === 'good' ? 600 : 180, it.type === 'good' ? 'sine' : 'sawtooth', 0.1);
         fallingItems.splice(i, 1);
         continue;
@@ -408,11 +442,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function startDodgeGame() {
     resetDodgeGame();
     isDodgeRunning = true;
-    overlay.classList.add('hidden');
+    if (overlay) overlay.classList.add('hidden');
 
     dodgeTimerInterval = setInterval(() => {
       dodgeTimeLeft--;
-      timerEl.textContent = dodgeTimeLeft + 's';
+      if (timerEl) timerEl.textContent = dodgeTimeLeft + 's';
       if (dodgeTimeLeft <= 0) {
         endDodgeGame();
       }
@@ -428,7 +462,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (dodgeScore > dodgeHighScore) {
       dodgeHighScore = dodgeScore;
-      highscoreEl.textContent = dodgeHighScore;
+      if (highscoreEl) highscoreEl.textContent = dodgeHighScore;
     }
 
     let evaluation = "Code Review 结论：被许健的多线程海王炸毁了服务器，急需重构！💸";
@@ -438,10 +472,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const title = document.getElementById('overlay-title');
     const desc = document.getElementById('overlay-desc');
-    title.textContent = `🚨 审核结束！最终得分：${dodgeScore}`;
-    desc.innerHTML = `${evaluation}<br><br>点击下方按钮再次开启 Review！`;
-    overlay.classList.remove('hidden');
-    btnStartDodge.textContent = '🔄 再次 Review 避雷';
+    if (title) title.textContent = `🚨 审核结束！最终得分：${dodgeScore}`;
+    if (desc) desc.innerHTML = `${evaluation}<br><br>点击下方按钮再次开启 Review！`;
+    if (overlay) overlay.classList.remove('hidden');
+    if (btnStartDodge) btnStartDodge.textContent = '🔄 再次 Review 避雷';
   }
 
   if (btnStartDodge) btnStartDodge.addEventListener('click', startDodgeGame);
@@ -471,5 +505,5 @@ document.addEventListener('DOMContentLoaded', () => {
     btnRight.addEventListener('mouseup', () => player.moveRight = false);
   }
 
-  console.log('%c🚨 许健恶搞游乐场 (程序媛高工版) 已就绪！', 'color:#ffa502;font-size:16px;font-weight:bold;');
+  console.log('%c🚨 许健恶搞游乐场 (全功能修复与优化版) 就绪！', 'color:#ffa502;font-size:16px;font-weight:bold;');
 });
