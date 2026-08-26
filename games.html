@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>许健恶搞游乐场 🎮 | 暴打许健 & 离谱大转盘</title>
+  <meta name="description" content="全网唯一许健恶搞互动游乐场，包含暴打许健、离谱借口转盘与避雷大作战。">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+  <link rel="stylesheet" href="games.css">
+</head>
+<body>
+
+  <!-- 顶部导航 -->
+  <nav class="top-nav">
+    <a href="index.html" class="nav-back">← 返回主页</a>
+    <span class="nav-tag">🎮 许健恶搞游乐场 v2.0</span>
+    <a href="https://xujianshihundan.github.io/xujian-reviews/" target="_blank" class="nav-link">📝 去点评墙</a>
+  </nav>
+
+  <!-- 游乐场头部 -->
+  <header class="game-hero">
+    <h1 class="game-title">
+      <span class="fire-text">许健恶搞游乐场</span> 🎪
+    </h1>
+    <p class="game-subtitle">解压神器 · 沉浸式体验与混蛋斗智斗勇</p>
+  </header>
+
+  <!-- 游戏选项卡 -->
+  <div class="tabs-container">
+    <div class="game-tabs">
+      <button class="tab-btn active" data-target="game-whack">💥 暴打许健</button>
+      <button class="tab-btn" data-target="game-wheel">🎡 离谱借口转盘</button>
+      <button class="tab-btn" data-target="game-dodge">🛡️ 避雷接物大作战</button>
+    </div>
+  </div>
+
+  <main class="game-arena">
+
+    <!-- 游戏 1: 暴打许健 -->
+    <section id="game-whack" class="game-panel active">
+      <div class="panel-head">
+        <h2>💥 暴打许健 · 疯狂戳戳乐</h2>
+        <p>猛击许健释放你的怨气！连击越高，吐槽越狠！</p>
+      </div>
+
+      <div class="whack-dashboard">
+        <div class="dash-item">
+          <span class="dash-label">累计暴击次数</span>
+          <span class="dash-val" id="hit-count">0</span>
+        </div>
+        <div class="dash-item">
+          <span class="dash-label">当前连击 (Combo)</span>
+          <span class="dash-val combo-val" id="combo-count">0</span>
+        </div>
+        <div class="dash-item">
+          <span class="dash-label">当前称号</span>
+          <span class="dash-val title-val" id="player-title">路过的吃瓜群众</span>
+        </div>
+      </div>
+
+      <div class="whack-stage">
+        <!-- 漂浮吐槽文字容器 -->
+        <div id="flying-texts" class="flying-container"></div>
+        
+        <div class="target-card" id="whack-target">
+          <div class="target-avatar">
+            <span class="target-emoji" id="target-emoji">🤡</span>
+            <div class="target-badge">混蛋本蛋</div>
+          </div>
+          <div class="target-hp-bar">
+            <div class="hp-fill" id="rage-fill" style="width: 0%;"></div>
+          </div>
+          <p class="target-hint" id="target-status">“哎呀，你点我干嘛？”</p>
+        </div>
+      </div>
+
+      <div class="whack-controls">
+        <button id="btn-hit" class="action-btn big-btn">👊 重拳出击！</button>
+        <button id="btn-auto-whack" class="action-btn sec-btn">⚡ 开启自动连点器</button>
+        <button id="btn-reset-whack" class="action-btn sub-btn">🔄 重新计数</button>
+      </div>
+    </section>
+
+    <!-- 游戏 2: 离谱借口大转盘 -->
+    <section id="game-wheel" class="game-panel">
+      <div class="panel-head">
+        <h2>🎡 许健离谱借口大转盘</h2>
+        <p>今天许健为什么不回消息/借钱/迟到？点击转盘抽取今日份离谱借口！</p>
+      </div>
+
+      <div class="wheel-stage">
+        <div class="wheel-box">
+          <div class="wheel-pointer">▼</div>
+          <div class="wheel" id="wheel-disc">
+            <div class="wheel-slice" style="--i:0;"><span>借200充话费</span></div>
+            <div class="wheel-slice" style="--i:1;"><span>排位开团收不住</span></div>
+            <div class="wheel-slice" style="--i:2;"><span>给苹果送安卓壳</span></div>
+            <div class="wheel-slice" style="--i:3;"><span>朋友圈高效广撒网</span></div>
+            <div class="wheel-slice" style="--i:4;"><span>红烧肉是盗图英雄</span></div>
+            <div class="wheel-slice" style="--i:5;"><span>帮我砍一刀浇水</span></div>
+            <div class="wheel-slice" style="--i:6;"><span>你今天没化妆AA吧</span></div>
+            <div class="wheel-slice" style="--i:7;"><span>是我配不上你无缝</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wheel-action">
+        <button id="btn-spin" class="action-btn big-btn">🎯 开始抽离谱借口！</button>
+      </div>
+
+      <div class="excuse-result" id="excuse-result" style="display:none;">
+        <div class="result-badge">今日离谱认证</div>
+        <h3 id="result-text">“借200充话费，朋友之间这点忙都不帮？”</h3>
+        <div class="result-meta">
+          <span>离谱指数：<b class="stars">⭐⭐⭐⭐⭐</b></span>
+          <span>混蛋程度：<b class="danger">100% MAX</b></span>
+        </div>
+        <p class="result-comment" id="result-comment">鉴定结论：建议立刻加入黑名单！</p>
+      </div>
+    </section>
+
+    <!-- 游戏 3: 避雷接物大作战 -->
+    <section id="game-dodge" class="game-panel">
+      <div class="panel-head">
+        <h2>🛡️ 避雷接物大作战</h2>
+        <p>控制下方推车：接到【绿色好物】加分，避开【红色雷区】混蛋物品！限时 30 秒！</p>
+      </div>
+
+      <div class="dodge-dashboard">
+        <div class="dash-item">
+          <span class="dash-label">剩余时间</span>
+          <span class="dash-val" id="game-timer">30s</span>
+        </div>
+        <div class="dash-item">
+          <span class="dash-label">当前得分</span>
+          <span class="dash-val score-val" id="game-score">0</span>
+        </div>
+        <div class="dash-item">
+          <span class="dash-label">最高纪录</span>
+          <span class="dash-val" id="game-highscore">0</span>
+        </div>
+      </div>
+
+      <div class="dodge-stage" id="dodge-canvas-box">
+        <canvas id="dodge-canvas" width="600" height="400"></canvas>
+        <div class="game-overlay" id="game-overlay">
+          <div class="overlay-card">
+            <h3 id="overlay-title">🛡️ 准备避雷！</h3>
+            <p id="overlay-desc">左右滑动或键盘 ← → 移动挡板，接住绿色【拉黑/真诚/AA】，躲避红色【借200/安卓壳/盗图/海王】！</p>
+            <button id="btn-start-dodge" class="action-btn big-btn">🚀 开始游戏</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="dodge-mobile-controls">
+        <button id="btn-left" class="arrow-btn">◀ 往左移</button>
+        <button id="btn-right" class="arrow-btn">往右移 ▶</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 底部快捷跳转 -->
+  <section class="game-footer-cta">
+    <div class="cta-inner">
+      <h2>玩爽了吗？</h2>
+      <p>快去许健主站与点评墙继续查阅铁证！</p>
+      <div class="cta-btns">
+        <a href="index.html" class="action-btn sec-btn">🏠 返回许健是混蛋主页</a>
+        <a href="https://xujianshihundan.github.io/xujian-reviews/" target="_blank" class="action-btn big-btn">📝 查看网恋对象真实点评墙</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <p>😤 许健恶搞游乐场 · 由 <code>@xujianshihundan</code> 倾情整蛊出品</p>
+    <p class="small">本站所有小游戏文案与设定均为虚构娱乐，仅供朋友间恶搞，不指向任何真实人物，请勿对号入座。</p>
+    <p class="small">如有雷同，纯属许健本人问题。</p>
+  </footer>
+
+  <script src="games.js"></script>
+</body>
+</html>

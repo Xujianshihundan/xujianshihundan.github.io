@@ -179,7 +179,7 @@ body {
   color: var(--text-soft);
 }
 
-/* ===== 点评跳转板块 ===== */
+/* ===== 恶搞分流板块 ===== */
 .cta-section {
   position: relative;
   z-index: 2;
@@ -187,22 +187,34 @@ body {
   text-align: center;
 }
 
+.cta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 .cta-card {
   display: flex;
   align-items: center;
-  gap: 24px;
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 28px 32px;
+  gap: 20px;
+  padding: 24px 28px;
   background: linear-gradient(135deg, #2a1818, #1a1212);
   border: 2px solid var(--accent);
   border-radius: 20px;
   text-decoration: none;
   color: inherit;
-  transition: transform 0.25s, box-shadow 0.25s;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
   box-shadow: 0 0 30px rgba(255,71,87,0.2);
   text-align: left;
   cursor: pointer;
+}
+
+.cta-card.game-card {
+  border-color: var(--accent-2);
+  background: linear-gradient(135deg, #2c1e13, #1a1210);
+  box-shadow: 0 0 30px rgba(255,165,2,0.2);
 }
 
 .cta-card:hover {
@@ -211,8 +223,24 @@ body {
   border-color: var(--accent-2);
 }
 
+.cta-card.game-card:hover {
+  box-shadow: 0 12px 40px rgba(255,165,2,0.5);
+  border-color: #ffd166;
+}
+
+.badge-new {
+  font-size: 11px;
+  font-weight: 800;
+  background: var(--accent);
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 6px;
+  vertical-align: middle;
+  margin-left: 6px;
+}
+
 .cta-emoji {
-  font-size: 56px;
+  font-size: 52px;
   flex-shrink: 0;
   animation: pulse 1.6s ease-in-out infinite;
 }
@@ -223,25 +251,32 @@ body {
 }
 
 .cta-body h3 {
-  font-size: 22px;
+  font-size: 20px;
   color: var(--accent-2);
   margin-bottom: 6px;
+  display: flex;
+  align-items: center;
 }
 
 .cta-body p {
-  font-size: 14px;
+  font-size: 13.5px;
   color: var(--text-soft);
   margin-bottom: 10px;
+  line-height: 1.5;
 }
 
 .cta-go {
   display: inline-block;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--accent);
 }
 
-.cta-card:hover .cta-go { color: var(--accent-2); }
+.cta-card.game-card .cta-go {
+  color: var(--accent-2);
+}
+
+.cta-card:hover .cta-go { color: #fff; }
 
 /* ===== 页脚 ===== */
 .footer {

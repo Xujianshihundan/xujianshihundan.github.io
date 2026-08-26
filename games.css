@@ -1,0 +1,603 @@
+/* ===== 恶搞游乐场样式 ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0e0909;
+  --bg-card: #1c1313;
+  --bg-card-hover: #261b1b;
+  --text: #fbeedb;
+  --text-soft: #bfaea0;
+  --accent: #ff4757;
+  --accent-2: #ffa502;
+  --accent-green: #2ed573;
+  --accent-blue: #1e90ff;
+  --border: #3b2828;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== 顶部导航 ===== */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: rgba(28, 19, 19, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-back, .nav-link {
+  color: var(--accent-2);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: rgba(255, 165, 2, 0.1);
+  border: 1px solid rgba(255, 165, 2, 0.25);
+  transition: all 0.2s;
+}
+
+.nav-back:hover, .nav-link:hover {
+  background: var(--accent-2);
+  color: #1a1010;
+  transform: translateY(-1px);
+}
+
+.nav-tag {
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--accent);
+}
+
+/* ===== 头部 ===== */
+.game-hero {
+  text-align: center;
+  padding: 50px 20px 30px;
+  background: radial-gradient(circle at top, rgba(255, 71, 87, 0.15), transparent 70%);
+}
+
+.game-title {
+  font-size: clamp(30px, 6vw, 52px);
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.fire-text {
+  background: linear-gradient(180deg, #ffeaa7 0%, #ffa502 40%, #ff4757 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 15px rgba(255, 71, 87, 0.4));
+}
+
+.game-subtitle {
+  color: var(--text-soft);
+  font-size: clamp(14px, 2.5vw, 18px);
+}
+
+/* ===== 选项卡切换 ===== */
+.tabs-container {
+  max-width: 720px;
+  margin: 0 auto 30px;
+  padding: 0 16px;
+}
+
+.game-tabs {
+  display: flex;
+  gap: 10px;
+  background: var(--bg-card);
+  padding: 6px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+
+.tab-btn {
+  flex: 1;
+  background: transparent;
+  color: var(--text-soft);
+  border: none;
+  padding: 12px 8px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s;
+  font-family: inherit;
+}
+
+.tab-btn:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #1a0f0f;
+  box-shadow: 0 4px 15px rgba(255, 71, 87, 0.35);
+}
+
+/* ===== 游戏容器 ===== */
+.game-arena {
+  max-width: 800px;
+  margin: 0 auto 60px;
+  padding: 0 16px;
+}
+
+.game-panel {
+  display: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  animation: fadeIn 0.3s ease;
+}
+
+.game-panel.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.panel-head {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.panel-head h2 {
+  font-size: 22px;
+  color: var(--accent-2);
+  margin-bottom: 6px;
+}
+
+.panel-head p {
+  font-size: 14px;
+  color: var(--text-soft);
+}
+
+/* ===== 通用按钮 ===== */
+.action-btn {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 800;
+  border-radius: 12px;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.big-btn {
+  background: linear-gradient(135deg, var(--accent), #e84118);
+  color: #fff;
+  padding: 14px 28px;
+  font-size: 16px;
+  box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+}
+
+.big-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(255, 71, 87, 0.6);
+}
+
+.big-btn:active { transform: translateY(1px); }
+
+.sec-btn {
+  background: rgba(255, 165, 2, 0.15);
+  color: var(--accent-2);
+  border: 1px solid var(--accent-2);
+  padding: 12px 22px;
+  font-size: 14px;
+}
+
+.sec-btn:hover {
+  background: var(--accent-2);
+  color: #1a0f0f;
+}
+
+.sub-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-soft);
+  padding: 10px 18px;
+  font-size: 13px;
+}
+
+.sub-btn:hover { color: var(--text); background: rgba(255, 255, 255, 0.15); }
+
+/* ===== 游戏 1: 暴打许健 ===== */
+.whack-dashboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.dash-item {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
+  padding: 12px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.dash-label { display: block; font-size: 12px; color: var(--text-soft); }
+.dash-val { font-size: 22px; font-weight: 900; color: var(--text); }
+.combo-val { color: var(--accent); }
+.title-val { color: var(--accent-2); font-size: 15px; }
+
+.whack-stage {
+  position: relative;
+  min-height: 260px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle, #2e1818 0%, #150d0d 100%);
+  border-radius: 16px;
+  border: 2px dashed var(--border);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.flying-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.flying-word {
+  position: absolute;
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--accent-2);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  animation: floatUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+@keyframes floatUp {
+  0% { transform: translate(-50%, 0) scale(0.5); opacity: 0; }
+  20% { opacity: 1; transform: translate(-50%, -20px) scale(1.1); }
+  100% { transform: translate(-50%, -100px) scale(0.9); opacity: 0; }
+}
+
+.target-card {
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.1s;
+}
+
+.target-card:active { transform: scale(0.92); }
+
+.target-avatar {
+  position: relative;
+  display: inline-block;
+}
+
+.target-emoji {
+  font-size: 96px;
+  display: block;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.6));
+  transition: transform 0.1s;
+}
+
+.target-card.hit .target-emoji {
+  animation: hitJiggle 0.25s ease;
+}
+
+@keyframes hitJiggle {
+  0% { transform: scale(1.3) rotate(-15deg); }
+  50% { transform: scale(0.8) rotate(15deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+.target-badge {
+  position: absolute;
+  bottom: 0;
+  right: -10px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 2px solid var(--bg-card);
+}
+
+.target-hp-bar {
+  width: 180px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  margin: 12px auto 6px;
+  overflow: hidden;
+}
+
+.hp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-2), var(--accent));
+  transition: width 0.15s ease;
+}
+
+.target-hint {
+  font-size: 13px;
+  color: var(--text-soft);
+}
+
+.whack-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* ===== 游戏 2: 借口大转盘 ===== */
+.wheel-stage {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.wheel-box {
+  position: relative;
+  width: 280px;
+  height: 280px;
+}
+
+.wheel-pointer {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 26px;
+  color: var(--accent);
+  z-index: 10;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.8));
+}
+
+.wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 6px solid var(--accent-2);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(255, 165, 2, 0.3);
+  transition: transform 3.5s cubic-bezier(0.15, 0.9, 0.25, 1);
+  background: conic-gradient(
+    #2c1a1a 0deg 45deg,
+    #3d2222 45deg 90deg,
+    #2c1a1a 90deg 135deg,
+    #3d2222 135deg 180deg,
+    #2c1a1a 180deg 225deg,
+    #3d2222 225deg 270deg,
+    #2c1a1a 270deg 315deg,
+    #3d2222 315deg 360deg
+  );
+}
+
+.wheel-slice {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(calc(var(--i) * 45deg));
+  display: flex;
+  justify-content: center;
+  padding-top: 14px;
+}
+
+.wheel-slice span {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+}
+
+.wheel-action {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.excuse-result {
+  background: linear-gradient(135deg, rgba(255, 71, 87, 0.1), rgba(255, 165, 2, 0.05));
+  border: 2px solid var(--accent);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.result-badge {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.excuse-result h3 {
+  font-size: 18px;
+  color: var(--accent-2);
+  margin-bottom: 12px;
+}
+
+.result-meta {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.result-meta .stars { color: #f1c40f; }
+.result-meta .danger { color: var(--accent); }
+.result-comment { font-size: 14px; color: var(--text-soft); }
+
+/* ===== 游戏 3: 避雷接物 ===== */
+.dodge-dashboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.score-val { color: var(--accent-green); }
+
+.dodge-stage {
+  position: relative;
+  background: #120b0b;
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  max-width: 600px;
+  margin: 0 auto 16px;
+}
+
+#dodge-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: radial-gradient(circle at center, #241414 0%, #0d0707 100%);
+}
+
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 5, 5, 0.85);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.game-overlay.hidden { display: none; }
+
+.overlay-card {
+  text-align: center;
+  max-width: 400px;
+}
+
+.overlay-card h3 {
+  font-size: 22px;
+  color: var(--accent-2);
+  margin-bottom: 8px;
+}
+
+.overlay-card p {
+  font-size: 13px;
+  color: var(--text-soft);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.dodge-mobile-controls {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.arrow-btn {
+  flex: 1;
+  background: var(--bg-card-hover);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 800;
+  padding: 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.arrow-btn:active { background: var(--accent); }
+
+/* ===== 底部快捷跳转 ===== */
+.game-footer-cta {
+  background: linear-gradient(180deg, transparent, rgba(255, 71, 87, 0.1));
+  padding: 60px 20px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+
+.cta-inner {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.cta-inner h2 {
+  font-size: 26px;
+  color: var(--accent-2);
+  margin-bottom: 8px;
+}
+
+.cta-inner p {
+  color: var(--text-soft);
+  margin-bottom: 24px;
+}
+
+.cta-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+}
+
+/* ===== 页脚 ===== */
+.footer {
+  text-align: center;
+  padding: 40px 20px;
+  border-top: 1px solid var(--border);
+  background: #080505;
+  color: var(--text-soft);
+}
+
+.footer p { font-size: 14px; margin-bottom: 6px; }
+.footer .small { font-size: 12px; opacity: 0.65; }
+.footer code { color: var(--accent); background: var(--bg); padding: 2px 6px; border-radius: 4px; }
+
+/* ===== 响应式 ===== */
+@media (max-width: 600px) {
+  .top-nav { padding: 12px 14px; }
+  .nav-tag { display: none; }
+  .game-tabs { flex-direction: column; }
+  .whack-dashboard, .dodge-dashboard { grid-template-columns: 1fr; gap: 8px; }
+  .whack-controls { flex-direction: column; }
+  .whack-controls button { width: 100%; }
+}
