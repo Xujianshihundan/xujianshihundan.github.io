@@ -43,6 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let comboCount = 0;
   let comboTimer = null;
   let autoWhackInterval = null;
+  let achievementUnlocked = false;
+
+  const whackStage = document.getElementById('whack-stage') || document.querySelector('.whack-stage');
+  const achievementModal = document.getElementById('achievement-modal');
+  const btnCloseModal = document.getElementById('btn-close-modal');
+  const modalBackdrop = document.getElementById('modal-backdrop');
 
   const hitWords = [
     "💥 借500充话费说是天使轮投资！",
@@ -59,7 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const titles = [
     { threshold: 0, title: "初级受害者 (吃瓜)" },
-    { threshold: 10, title: "反借钱先锋程序媛" },
+    { threshold: 5, title: "正义暴打先锋 🔨" },
+    { threshold: 15, title: "反借钱先锋程序媛" },
     { threshold: 30, title: "鉴高并发海王架构师" },
     { threshold: 60, title: "零信任反诈高级总监" },
     { threshold: 100, title: "暴打许健·金牌主审官 👑" }
@@ -78,6 +85,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnResetWhack = document.getElementById('btn-reset-whack');
 
   const emojis = ['🤡', '💩', '🤦', '🙄', '😵', '😵‍💫', '😭'];
+
+  function checkAchievement() {
+    if (hitCount >= 5 && !achievementUnlocked) {
+      achievementUnlocked = true;
+      // 1. 舞台背景动态切换为 NAI5 暴打漫画
+      if (whackStage) {
+        whackStage.id = 'whack-stage';
+        whackStage.classList.add('has-achievement-bg');
+      }
+      // 2. 弹出成就弹窗
+      if (achievementModal) {
+        achievementModal.style.display = 'flex';
+      }
+      // 3. 胜利音效
+      playBeep(523.25, 'sine', 0.15);
+      setTimeout(() => playBeep(659.25, 'sine', 0.15), 150);
+      setTimeout(() => playBeep(783.99, 'sine', 0.25), 300);
+      setTimeout(() => playBeep(1046.50, 'triangle', 0.4), 450);
+    }
+  }
+
+  // 关闭弹窗事件
+  function closeModal() {
+    if (achievementModal) achievementModal.style.display = 'none';
+  }
+  if (btnCloseModal) btnCloseModal.addEventListener('click', closeModal);
+  if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
 
   function updateWhackTitle() {
     for (let i = titles.length - 1; i >= 0; i--) {
@@ -104,6 +138,9 @@ document.addEventListener('DOMContentLoaded', () => {
     comboCount++;
     hitCountEl.textContent = hitCount;
     comboCountEl.textContent = comboCount;
+
+    // 检查 5 次暴打成就
+    checkAchievement();
 
     // 充能条
     const ragePercent = (comboCount * 5) % 100;
@@ -137,6 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
       rageFill.style.width = '0%';
       targetStatus.textContent = "“呼……终于停手了，赶紧去开把排位。”";
       targetEmoji.textContent = '🤡';
+    }, 1800);
+  }
     }, 1800);
   }
 

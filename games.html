@@ -58,7 +58,7 @@
         </div>
       </div>
 
-      <div class="whack-stage">
+      <div class="whack-stage" id="whack-stage">
         <!-- 漂浮吐槽文字容器 -->
         <div id="flying-texts" class="flying-container"></div>
         
@@ -159,6 +159,22 @@
     </section>
 
   </main>
+
+  <!-- 成就解锁弹窗 (暴打5次触发) -->
+  <div class="achievement-modal" id="achievement-modal" style="display: none;">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-card">
+      <div class="modal-badge">🎉 解锁专属成就！</div>
+      <h2>💥 正义暴打 · 许健惨遭爆锤！</h2>
+      <p class="modal-desc">累计暴击达到 5 次！年轻可爱的暴躁小姐姐提着充气巨锤赶到现场，许健已被锤出蚊香眼！</p>
+      <div class="modal-img-box">
+        <img src="暴打许健成就图.jpg" alt="暴打许健 Q 版漫画" class="modal-img">
+        <span class="img-tag">🎨 NAI5 纯正 Q 版漫画</span>
+      </div>
+      <p class="modal-tip">✨ 该漫画已自动装配为本小游戏的【专属背景】！</p>
+      <button class="action-btn big-btn" id="btn-close-modal">👊 爽了！继续暴打许健</button>
+    </div>
+  </div>
 
   <!-- 底部快捷跳转 -->
   <section class="game-footer-cta">
