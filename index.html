@@ -34,13 +34,51 @@
     <div class="scroll-hint">↓ 往下看更有料 ↓</div>
   </header>
 
-  <!-- 图片展示区 -->
+  <!-- 图片展示区 (恶搞画廊轮播) -->
   <section class="photo-section">
-    <h2 class="sec-title">🖼️ 铁证如山</h2>
-    <figure class="photo-frame">
-      <img src="许健是混蛋.jpg" alt="许健是混蛋 铁证图" loading="lazy">
-      <figcaption>📎 实拍证据 · 已获（虚构）当事人授权展示</figcaption>
-    </figure>
+    <h2 class="sec-title">🖼️ 铁证如山 · 虚拟恶搞画廊</h2>
+    <p class="sec-subtitle">点击左右按钮或下方缩略图切换铁证，点击大图可放大！</p>
+    
+    <div class="gallery-container">
+      <div class="gallery-main">
+        <button class="gallery-arrow prev" id="gallery-prev" aria-label="上一张">‹</button>
+        
+        <figure class="photo-frame" id="photo-frame">
+          <img id="gallery-img" src="许健是混蛋.jpg" alt="许健是混蛋 铁证图" loading="lazy">
+          <figcaption id="gallery-caption">📎 实拍铁证 01 · 许健是混蛋 经典原版铁证</figcaption>
+        </figure>
+
+        <button class="gallery-arrow next" id="gallery-next" aria-label="下一张">›</button>
+      </div>
+
+      <!-- 圆点指示器 -->
+      <div class="gallery-dots" id="gallery-dots">
+        <span class="dot active" data-index="0"></span>
+        <span class="dot" data-index="1"></span>
+        <span class="dot" data-index="2"></span>
+        <span class="dot" data-index="3"></span>
+      </div>
+
+      <!-- 缩略图选择列表 -->
+      <div class="thumb-list" id="thumb-list">
+        <div class="thumb-item active" data-index="0">
+          <img src="许健是混蛋.jpg" alt="经典原图">
+          <span>01. 经典铁证</span>
+        </div>
+        <div class="thumb-item" data-index="1">
+          <img src="虚拟恶搞图1_分布式海王翻车.jpg" alt="高并发海王">
+          <span>02. 分布式海王</span>
+        </div>
+        <div class="thumb-item" data-index="2">
+          <img src="虚拟恶搞图2_拼夕夕极简交付MVP.jpg" alt="9.9安卓壳MVP">
+          <span>03. 9.9安卓壳MVP</span>
+        </div>
+        <div class="thumb-item" data-index="3">
+          <img src="虚拟恶搞图3_峡谷0-12深情挽回.jpg" alt="0-12深情长文">
+          <span>04. 0-12深情长文</span>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- 恶搞分流板块 -->
