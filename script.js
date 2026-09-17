@@ -1,7 +1,7 @@
 // 许健是混蛋 主页 - 装饰与画廊轮播脚本
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ===== 1. 点击大字抖动动画与绝密彩蛋 (连续点击5次触发视频) =====
+  // ===== 1. 点击大字抖动动画与绝密彩蛋 (连续点击5次触发语音心路与视频) =====
   const declaration = document.querySelector('.declaration');
   const chars = document.querySelectorAll('.declaration .char');
   const eggModal = document.getElementById('egg-modal');
@@ -9,6 +9,35 @@ document.addEventListener('DOMContentLoaded', () => {
   const eggCloseBtn = document.getElementById('egg-close-btn');
   const eggVideo = document.getElementById('egg-video');
   const eggToast = document.getElementById('egg-toast');
+
+  // 许健心路历程 4 阶段语音
+  const eggAudios = [
+    new Audio('audio/click_1.mp3'),
+    new Audio('audio/click_2.mp3'),
+    new Audio('audio/click_3.mp3'),
+    new Audio('audio/click_4.mp3')
+  ];
+  let currentEggAudio = null;
+
+  function stopEggAudio() {
+    if (currentEggAudio) {
+      currentEggAudio.pause();
+      currentEggAudio.currentTime = 0;
+      currentEggAudio = null;
+    }
+  }
+
+  function playEggStepAudio(stepIndex) {
+    stopEggAudio();
+    if (eggAudios[stepIndex]) {
+      const audio = eggAudios[stepIndex];
+      audio.currentTime = 0;
+      currentEggAudio = audio;
+      audio.play().catch(err => {
+        console.log('点击语音播放受阻:', err);
+      });
+    }
+  }
 
   let eggClickCount = 0;
   let eggResetTimer = null;
@@ -21,10 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => {
       eggToast.classList.remove('show');
-    }, 1800);
+    }, 2400);
   }
 
   function openEggModal() {
+    stopEggAudio();
     if (!eggModal || !eggVideo) return;
     eggModal.classList.add('active');
     eggModal.setAttribute('aria-hidden', 'false');
@@ -47,11 +77,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = '';
     eggVideo.pause();
     eggVideo.currentTime = 0;
+    stopEggAudio();
   }
 
   // 大字单字抖动动效
   chars.forEach((c, i) => {
-    c.addEventListener('click', (e) => {
+    c.addEventListener('click', () => {
       c.style.animation = 'none';
       requestAnimationFrame(() => {
         c.style.animation = `wobble 0.4s ease-in-out ${i * 0.05}s`;
@@ -59,27 +90,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 大字整体点击彩蛋计数
+  // 大字整体点击彩蛋计数与阶梯语音
   if (declaration) {
     declaration.addEventListener('click', () => {
       eggClickCount++;
       clearTimeout(eggResetTimer);
 
-      // 3.5 秒内未继续点击则重置计数
+      // 12 秒未继续点击则重置计数并停止语音
       eggResetTimer = setTimeout(() => {
         eggClickCount = 0;
-      }, 3500);
+        stopEggAudio();
+      }, 12000);
 
-      if (eggClickCount === 2) {
-        showEggToast('⚡ 别戳了别戳了... (2/5)');
+      if (eggClickCount === 1) {
+        playEggStepAudio(0);
+        showEggToast('🎙️ 许健急了：“我对天发誓我真不是混蛋！(1/5)”');
+      } else if (eggClickCount === 2) {
+        playEggStepAudio(1);
+        showEggToast('🎙️ 许健动摇：“我真没她们说的那么坏啊！(2/5)”');
       } else if (eggClickCount === 3) {
-        showEggToast('🔥 好像有什么东西要出来了？(3/5)');
+        playEggStepAudio(2);
+        showEggToast('🎙️ 许健心虚认错：“我确实有大问题行了吧！(3/5)”');
       } else if (eggClickCount === 4) {
-        showEggToast('🚨 再戳最后 1 次解除封印！(4/5)');
+        playEggStepAudio(3);
+        showEggToast('🔥 许健气急败坏：“既然这样，有本事再点一下试试？！(4/5)”');
       } else if (eggClickCount >= 5) {
         eggClickCount = 0;
         clearTimeout(eggResetTimer);
-        showEggToast('🎉 绝密铁证彩蛋已解锁！');
+        showEggToast('🎉 绝密铁证视频已解锁！');
         openEggModal();
       }
     });
