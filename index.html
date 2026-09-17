@@ -112,6 +112,30 @@
     <p class="small">如有雷同，纯属许健本人问题。</p>
   </footer>
 
+  <!-- 绝密彩蛋：点击大字5次弹出播放视频模态框 -->
+  <div id="egg-modal" class="egg-modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="egg-modal-backdrop" id="egg-backdrop"></div>
+    <div class="egg-modal-content">
+      <button class="egg-modal-close" id="egg-close-btn" aria-label="关闭视频">&times;</button>
+      <div class="egg-modal-header">
+        <span class="egg-badge">🚨 绝密档案解锁 · 点击大字彩蛋</span>
+        <h3 class="egg-title">🎬 许健·绝密铁证档案曝光</h3>
+      </div>
+      <div class="egg-video-container">
+        <video id="egg-video" playsinline controls preload="metadata">
+          <source src="xujian_egg.mp4" type="video/mp4">
+          您的浏览器暂不支持该视频播放，请下载后观看。
+        </video>
+      </div>
+      <div class="egg-footer-hint">
+        <span>💡 点击遮罩或按 ESC 键可退出播放</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 彩蛋点击进度提示 -->
+  <div id="egg-toast" class="egg-toast" aria-live="polite"></div>
+
   <script src="script.js"></script>
 </body>
 </html>

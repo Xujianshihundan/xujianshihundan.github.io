@@ -1,15 +1,103 @@
 // 许健是混蛋 主页 - 装饰与画廊轮播脚本
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ===== 1. 点击大字抖动动画 =====
+  // ===== 1. 点击大字抖动动画与绝密彩蛋 (连续点击5次触发视频) =====
+  const declaration = document.querySelector('.declaration');
   const chars = document.querySelectorAll('.declaration .char');
+  const eggModal = document.getElementById('egg-modal');
+  const eggBackdrop = document.getElementById('egg-backdrop');
+  const eggCloseBtn = document.getElementById('egg-close-btn');
+  const eggVideo = document.getElementById('egg-video');
+  const eggToast = document.getElementById('egg-toast');
+
+  let eggClickCount = 0;
+  let eggResetTimer = null;
+  let toastTimer = null;
+
+  function showEggToast(text) {
+    if (!eggToast) return;
+    eggToast.textContent = text;
+    eggToast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      eggToast.classList.remove('show');
+    }, 1800);
+  }
+
+  function openEggModal() {
+    if (!eggModal || !eggVideo) return;
+    eggModal.classList.add('active');
+    eggModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+
+    // 播放视频
+    eggVideo.currentTime = 0;
+    const playPromise = eggVideo.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(err => {
+        console.log('自动播放需要用户交互:', err);
+      });
+    }
+  }
+
+  function closeEggModal() {
+    if (!eggModal || !eggVideo) return;
+    eggModal.classList.remove('active');
+    eggModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    eggVideo.pause();
+    eggVideo.currentTime = 0;
+  }
+
+  // 大字单字抖动动效
   chars.forEach((c, i) => {
-    c.addEventListener('click', () => {
+    c.addEventListener('click', (e) => {
       c.style.animation = 'none';
       requestAnimationFrame(() => {
         c.style.animation = `wobble 0.4s ease-in-out ${i * 0.05}s`;
       });
     });
+  });
+
+  // 大字整体点击彩蛋计数
+  if (declaration) {
+    declaration.addEventListener('click', () => {
+      eggClickCount++;
+      clearTimeout(eggResetTimer);
+
+      // 3.5 秒内未继续点击则重置计数
+      eggResetTimer = setTimeout(() => {
+        eggClickCount = 0;
+      }, 3500);
+
+      if (eggClickCount === 2) {
+        showEggToast('⚡ 别戳了别戳了... (2/5)');
+      } else if (eggClickCount === 3) {
+        showEggToast('🔥 好像有什么东西要出来了？(3/5)');
+      } else if (eggClickCount === 4) {
+        showEggToast('🚨 再戳最后 1 次解除封印！(4/5)');
+      } else if (eggClickCount >= 5) {
+        eggClickCount = 0;
+        clearTimeout(eggResetTimer);
+        showEggToast('🎉 绝密铁证彩蛋已解锁！');
+        openEggModal();
+      }
+    });
+  }
+
+  // 模态框关闭交互
+  if (eggCloseBtn) {
+    eggCloseBtn.addEventListener('click', closeEggModal);
+  }
+  if (eggBackdrop) {
+    eggBackdrop.addEventListener('click', closeEggModal);
+  }
+
+  // 键盘 ESC 键关闭视频模态框
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && eggModal && eggModal.classList.contains('active')) {
+      closeEggModal();
+    }
   });
 
   // ===== 2. 虚拟恶搞铁证画廊轮播系统 =====
