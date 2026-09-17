@@ -1,4 +1,4 @@
-// 许健恶搞游乐场 游戏逻辑引擎 (全功能修复与优化版)
+// 恶搞许健游乐场 游戏逻辑引擎 (全功能修复与优化版)
 document.addEventListener('DOMContentLoaded', () => {
 
   // ===== 1. Web Audio 简单合成音效（自适应激活） =====
@@ -505,5 +505,5 @@ document.addEventListener('DOMContentLoaded', () => {
     btnRight.addEventListener('mouseup', () => player.moveRight = false);
   }
 
-  console.log('%c🚨 许健恶搞游乐场 (全功能修复与优化版) 就绪！', 'color:#ffa502;font-size:16px;font-weight:bold;');
+  console.log('%c🚨 恶搞许健游乐场 (全功能修复与优化版) 就绪！', 'color:#ffa502;font-size:16px;font-weight:bold;');
 });
